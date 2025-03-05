@@ -10,7 +10,7 @@ function Navbar(){
   };
 
   return (
-    <nav id="navbar2">
+    <nav id="navbar">
       <div id="navbarExpand" className="max-w-6xl mx-auto">
         <div 
           className="flex justify-between items-center py-4"
@@ -18,20 +18,20 @@ function Navbar(){
           {/* Logo */}
           <div className="flex items-center">
             <a href="/" className="text-2xl font-bold text-white">
-              Logo
+              Shadow & Spirits
             </a>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             <a href="/page1" className="text-white hover:text-gray-300 transition duration-300">
-              Page 1
+              Our Drinks
             </a>
             <a href="/services" className="text-white hover:text-gray-300 transition duration-300">
-              Services
+              Find Us
             </a>
             <a href="/contact" className="text-white hover:text-gray-300 transition duration-300">
-              Contact
+              About
             </a>
             
             {/* Social Media Icons */}

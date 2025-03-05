@@ -1,21 +1,17 @@
+body {
+    font-family: 'Andada Pro', serif;
+}
+
+
+
 
 /* --- NAVBAR --- */
 #navbar {
-    padding: 15px 15%;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px, rgba(0, 0, 0, 0.15) 0px 6px 6px;
-}
-
-#navbarItems Link:hover{
-    text-decoration: underline;
-}
-
-#navbar2 {
     background-color: #441752;
     opacity: 60%;
+    font-family: "Playfair Display", serif;
 }
  
 #navbarExpand {
-    /* padding-left: 15%;
-    padding-right: 15%; */
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px, rgba(0, 0, 0, 0.15) 0px 6px 6px;
 }
