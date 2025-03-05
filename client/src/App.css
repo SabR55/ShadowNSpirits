@@ -9,9 +9,13 @@ body {
 #navbar {
     background-color: #441752;
     opacity: 60%;
-    font-family: "Playfair Display", serif;
+    font-weight: 700;
 }
  
 #navbarExpand {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px, rgba(0, 0, 0, 0.15) 0px 6px 6px;
+}
+
+#navbarLogo {
+    font-family: "Playfair Display", serif;
 }

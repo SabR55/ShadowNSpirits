@@ -16,23 +16,26 @@ function Navbar(){
           className="flex justify-between items-center py-4"
         >
           {/* Logo */}
-          <div className="flex items-center">
-            <a href="/" className="text-2xl font-bold text-white">
+          <div id="navbarLogo" className="flex items-center">
+            <Link to={"/"}  className="text-2xl font-bold text-white">
               Shadow & Spirits
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <a href="/page1" className="text-white hover:text-gray-300 transition duration-300">
+            <Link to={"/page1"} className="text-white hover:text-gray-300 transition duration-300">
               Our Drinks
-            </a>
-            <a href="/services" className="text-white hover:text-gray-300 transition duration-300">
+            </Link>
+            <Link to={"/findUs"}  className="text-white hover:text-gray-300 transition duration-300">
               Find Us
-            </a>
-            <a href="/contact" className="text-white hover:text-gray-300 transition duration-300">
+            </Link>
+            <Link to={"/about"}  className="text-white hover:text-gray-300 transition duration-300">
               About
-            </a>
+            </Link>
+            <Link to={"/checkReservation"}  className="text-white hover:text-gray-300 transition duration-300">
+              Check Reservation
+            </Link>
             
             {/* Social Media Icons */}
             <div className="flex space-x-4">
@@ -60,24 +63,30 @@ function Navbar(){
         {isOpen && (
           <div className="md:hidden">
             <div className="px-[15%] pt-2 pb-3 space-y-1 text-center">
-              <a 
-                href="/about" 
+            <Link 
+                to={"/page1"}
+                className="text-white block px-3 py-2 text-center"
+              >
+                Our Drinks
+              </Link>
+              <Link 
+                to={"/findUs"}
+                className="text-white block px-3 py-2 text-center"
+              >
+                Find Us
+              </Link>
+              <Link 
+                to={"/about"}
                 className="text-white block px-3 py-2 text-center"
               >
                 About
-              </a>
-              <a 
-                href="/services" 
+              </Link>
+              <Link 
+                to={"/checkReservation"}
                 className="text-white block px-3 py-2 text-center"
               >
-                Services
-              </a>
-              <a 
-                href="/contact" 
-                className="text-white block px-3 py-2 text-center"
-              >
-                Contact
-              </a>
+                Check Reservation
+              </Link>
               
               {/* Mobile Social Media Icons */}
               <div className="flex justify-center space-x-6 pt-4">
