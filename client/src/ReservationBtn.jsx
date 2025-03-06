@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { X, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const FloatingButton = () => {
+const ReservationBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -36,9 +37,9 @@ const FloatingButton = () => {
   };
   
   // Generate a random 5-digit booking number
-  const generateBookingNumber = () => {
-    return Math.floor(10000 + Math.random() * 90000).toString();
-  };
+  // const generateBookingNumber = () => {
+  //   return Math.floor(10000 + Math.random() * 90000).toString();
+  // };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -50,20 +51,39 @@ const FloatingButton = () => {
   
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    axios.get('http://localhost:3000/test')
+      .then(response => {
+        // Reset form state to initial values
+        setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            date: '',
+            time: '18:00',
+            guests: '2'
+        });
+      
+      console.log('Form submitted successfully', response);
+      })
+      .catch(error => {
+          console.error('Error submitting form:', error);
+      });
+      
     
     // Generate booking number
-    const bookingNumber = generateBookingNumber();
+    // const bookingNumber = generateBookingNumber();
     
     // Here you would typically make an API call to save the reservation
     // For now, we'll just navigate to the confirmation page with the data
     
     // Navigate to confirmation page with form data and booking number
-    navigate('/reservationConfirmed', { 
-      state: { 
-        ...formData,
-        bookingNumber 
-      } 
-    });
+    // navigate('/reservationConfirmed', { 
+    //   state: { 
+    //     ...formData,
+    //     bookingNumber 
+    //   } 
+    // });
     
     // Close the modal
     closeModal();
@@ -230,4 +250,4 @@ const FloatingButton = () => {
   );
 };
 
-export default FloatingButton;
+export default ReservationBtn;
