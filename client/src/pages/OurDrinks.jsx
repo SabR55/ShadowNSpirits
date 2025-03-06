@@ -2,7 +2,7 @@
 
 function Page1() {
     return (
-        <div>Page 1</div>
+        <div className="pt-24">Our Drinks Page</div>
     )
 }
 

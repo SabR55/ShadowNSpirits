@@ -2,7 +2,7 @@
 function Homepage(){
 
     return (
-        <div className="pt-16">
+        <div className="pt-24">
 
         <h1>Homepage</h1>
         

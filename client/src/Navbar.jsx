@@ -24,7 +24,7 @@ function Navbar(){
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link to={"/page1"} className="text-white hover:text-gray-300 transition duration-300">
+            <Link to={"/ourDrinks"} className="text-white hover:text-gray-300 transition duration-300">
               Our Drinks
             </Link>
             <Link to={"/findUs"}  className="text-white hover:text-gray-300 transition duration-300">
@@ -40,10 +40,10 @@ function Navbar(){
             {/* Social Media Icons */}
             <div className="flex space-x-4">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white">
-                <Instagram size={24} />
+                <Instagram size={22} />
               </a>
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white">
-                <Facebook size={24} />
+                <Facebook size={23} />
               </a>
             </div>
           </div>
@@ -64,7 +64,7 @@ function Navbar(){
           <div className="md:hidden">
             <div className="px-[15%] pt-2 pb-3 space-y-1 text-center">
             <Link 
-                to={"/page1"}
+                to={"/ourDrinks"}
                 className="text-white block px-3 py-2 text-center"
               >
                 Our Drinks
