@@ -5,6 +5,9 @@ import Layout from './Layout';
 import Homepage from './pages/Homepage';
 import ResConfirm from './pages/ResConfirm';
 import CheckRes from './pages/CheckRes';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:3000';
 
 function App() {
   return (

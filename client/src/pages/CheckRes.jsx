@@ -10,7 +10,7 @@ function CheckRes(){
         
         e.preventDefault();
 
-        axios.get('http://localhost:3000/test');
+        axios.get('/test');
 
     }
 

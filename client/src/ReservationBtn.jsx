@@ -52,7 +52,7 @@ const ReservationBtn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.get('http://localhost:3000/test')
+    axios.post('/makeReservation', formData)
       .then(response => {
         // Reset form state to initial values
         setFormData({
@@ -69,7 +69,7 @@ const ReservationBtn = () => {
       .catch(error => {
           console.error('Error submitting form:', error);
       });
-      
+
     
     // Generate booking number
     // const bookingNumber = generateBookingNumber();
