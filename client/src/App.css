@@ -5,8 +5,7 @@ body {
 
 /* --- NAVBAR --- */
 #navbar {
-    background-color: #441752;
-    opacity: 60%;
+    background-color: rgba(68, 23, 82, 0.6);
     font-weight: 700;
 }
  
@@ -21,4 +20,8 @@ body {
 /* --- NAVBAR --- */
 #reservationBtn {
     margin: 0 5% 60px 0;
+}
+
+#resModalTitle {
+    color: #441752;
 }

@@ -84,7 +84,7 @@ const FloatingButton = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Make a Reservation</h2>
+              <h2 id="resModalTitle" className="text-xl font-bold">Make a Reservation</h2>
               <button
                 onClick={closeModal}
                 className="text-gray-500 hover:text-gray-700"
@@ -135,7 +135,7 @@ const FloatingButton = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="0000 0000"
+                  placeholder="9878 6545"
                   required
                 />
               </div>

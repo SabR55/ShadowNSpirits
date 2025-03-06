@@ -4,6 +4,7 @@ import OurDrinks from './pages/OurDrinks';
 import Layout from './Layout';
 import Homepage from './pages/Homepage';
 import ResConfirm from './pages/ResConfirm';
+import CheckRes from './pages/CheckRes';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route index element={<Homepage />} />
         <Route path="/ourDrinks" element={<OurDrinks />} />
         <Route path="/reservationConfirmed" element={<ResConfirm />} />
+        <Route path="/checkReservation" element={<CheckRes />}/>
       </Route>
     </Routes>
   )
