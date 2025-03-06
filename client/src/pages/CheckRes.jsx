@@ -4,12 +4,10 @@ import { useState } from "react";
 function CheckRes(){
     const [resNum, setResNum] = useState('');
 
-    const handleChange = (e) => {
-        setResNum(e.target.value);
-    }
-
     const handleSubmit = () => {
         alert(resNum);
+        
+
     }
 
     return(
@@ -27,7 +25,7 @@ function CheckRes(){
                         <input 
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         value={resNum}
-                        onChange={handleChange}
+                        onChange={e => setResNum(e.target.value)}
                         />
                     </div>
 
