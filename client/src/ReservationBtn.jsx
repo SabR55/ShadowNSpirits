@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { X, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-function ReservationBtn(){
+const FloatingButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    date: '',
+    time: '18:00', // Default to 6:00 PM
+    guests: '2'    // Default to 2 people
+  });
+  const navigate = useNavigate();
 
   // Calculate minimum (today) and maximum (3 weeks from today) dates
   const today = new Date();
@@ -15,6 +25,19 @@ function ReservationBtn(){
 
   const todayFormatted = formatDate(today);
   const maxDateFormatted = formatDate(maxDate);
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+  
+  // Generate a random 5-digit booking number
+  const generateBookingNumber = () => {
+    return Math.floor(10000 + Math.random() * 90000).toString();
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -22,6 +45,27 @@ function ReservationBtn(){
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Generate booking number
+    const bookingNumber = generateBookingNumber();
+    
+    // Here you would typically make an API call to save the reservation
+    // For now, we'll just navigate to the confirmation page with the data
+    
+    // Navigate to confirmation page with form data and booking number
+    navigate('/reservationConfirmed', { 
+      state: { 
+        ...formData,
+        bookingNumber 
+      } 
+    });
+    
+    // Close the modal
+    closeModal();
   };
 
   return (
@@ -45,20 +89,24 @@ function ReservationBtn(){
                 onClick={closeModal}
                 className="text-gray-500 hover:text-gray-700"
               >
-                <X />
+              <X />
               </button>
             </div>
             
             {/* Reservation Form */}
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Name
                 </label>
                 <input
                   type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Your name"
+                  required
                 />
               </div>
               
@@ -68,8 +116,27 @@ function ReservationBtn(){
                 </label>
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="your@email.com"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="0000 0000"
+                  required
                 />
               </div>
               
@@ -78,11 +145,15 @@ function ReservationBtn(){
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Date
                   </label>
-                  <input
+                                      <input
                     type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
                     min={todayFormatted}
                     max={maxDateFormatted}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    required
                   />
                 </div>
                 
@@ -91,7 +162,11 @@ function ReservationBtn(){
                     Time
                   </label>
                   <select
+                    name="time"
+                    value={formData.time}
+                    onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10"
+                    required
                   >
                     <option value="16:00">4:00 PM</option>
                     <option value="16:30">4:30 PM</option>
@@ -116,8 +191,12 @@ function ReservationBtn(){
                   Number of Guests
                 </label>
                 <div className="relative">
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10">
-                    <option value="1">1 person</option>
+                  <select 
+                    name="guests"
+                    value={formData.guests}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10"
+                  >
                     <option value="2">2 people</option>
                     <option value="3">3 people</option>
                     <option value="4">4 people</option>
@@ -129,18 +208,12 @@ function ReservationBtn(){
                   </div>
                 </div>
               </div>
-
-              <div>
-                <a className="block text-sm font-medium text-gray-700 mb-1">
-                Each reservation includes a 15-minute grace period.
-                </a>
-              </div>
               
               <div className="pt-2">
                 <button
                   type="submit"
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md"
-                  style={{ backgroundColor: '#441752', color: 'white' }}
+                  style={{backgroundColor:'#441752', color:'white'}}
                 >
                   Confirm Reservation
                 </button>
@@ -153,4 +226,4 @@ function ReservationBtn(){
   );
 };
 
-export default ReservationBtn;
+export default FloatingButton;
