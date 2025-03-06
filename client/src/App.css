@@ -3,8 +3,6 @@ body {
 }
 
 
-
-
 /* --- NAVBAR --- */
 #navbar {
     background-color: #441752;
@@ -18,4 +16,9 @@ body {
 
 #navbarLogo {
     font-family: "Playfair Display", serif;
+}
+
+/* --- NAVBAR --- */
+#reservationBtn {
+    margin: 0 5% 60px 0;
 }
