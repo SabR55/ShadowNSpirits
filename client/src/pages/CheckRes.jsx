@@ -1,12 +1,16 @@
 import { useState } from "react";
+import axios from "axios";
 
 
 function CheckRes(){
     const [resNum, setResNum] = useState('');
 
-    const handleSubmit = () => {
-        alert(resNum);
+    const handleSubmit = (e) => {
+        // alert(resNum);
         
+        e.preventDefault();
+
+        axios.get('http://localhost:3000/test');
 
     }
 
