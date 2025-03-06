@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { Instagram, Facebook, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { use } from 'react';
 
 function Navbar(){
   const [isOpen, setIsOpen] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const [errorMsgVisible, setErrorMsgVisible] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -33,7 +38,9 @@ function Navbar(){
             <Link to={"/about"}  className="text-white hover:text-gray-300 transition duration-300">
               About
             </Link>
-            <Link to={"/checkReservation"}  className="text-white hover:text-gray-300 transition duration-300">
+            <Link 
+              to={"/checkReservation"} 
+              className="text-white hover:text-gray-300 transition duration-300">
               Check Reservation
             </Link>
             
@@ -61,7 +68,7 @@ function Navbar(){
 
         {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden">
+          <div className="md:hidden z-10">
             <div className="px-[15%] pt-2 pb-3 space-y-1 text-center">
             <Link 
                 to={"/ourDrinks"}

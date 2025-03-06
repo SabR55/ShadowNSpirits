@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const FloatingButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -69,12 +70,12 @@ const FloatingButton = () => {
   };
 
   return (
-    <>
+    <div>
       {/* Floating Button */}
       <button
         id="reservationBtn"
         onClick={openModal}
-        className="fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-lg z-50 transition-colors duration-200"
+        className="fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-lg transition-colors duration-200"
       >
         Make a Reservation
       </button>
@@ -87,9 +88,8 @@ const FloatingButton = () => {
               <h2 id="resModalTitle" className="text-xl font-bold">Make a Reservation</h2>
               <button
                 onClick={closeModal}
-                className="text-gray-500 hover:text-gray-700"
-              >
-              <X />
+                className="text-gray-500 hover:text-gray-700">
+                <X />
               </button>
             </div>
             
@@ -208,6 +208,10 @@ const FloatingButton = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="block text-sm font-medium text-gray-700 mb-1">
+                <a>Each reservation includes a 15-minute grace period.</a>
+              </div>
               
               <div className="pt-2">
                 <button
@@ -222,7 +226,7 @@ const FloatingButton = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
