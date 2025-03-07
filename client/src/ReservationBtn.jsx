@@ -14,14 +14,14 @@ const ReservationBtn = () => {
     time: '18:00', // Default to 6:00 PM
     guests: '2'    // Default to 2 people
   });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Calculate minimum (today) and maximum (3 weeks from today) dates
   const today = new Date();
   const maxDate = new Date();
   maxDate.setDate(today.getDate() + 21); // 3 weeks ahead
   
-  const formatDate = (date) => {
+  function formatDate(date) {
     return date.toISOString().split('T')[0];
   };
 
@@ -41,15 +41,15 @@ const ReservationBtn = () => {
   //   return Math.floor(10000 + Math.random() * 90000).toString();
   // };
 
-  const openModal = () => {
+  function openModal() {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  function closeModal() {
     setIsModalOpen(false);
   };
   
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
     axios.post('/makeReservation', formData)
