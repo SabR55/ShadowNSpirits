@@ -6,6 +6,7 @@ import axios from 'axios';
 const ReservationBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -37,9 +38,9 @@ const ReservationBtn = () => {
   };
   
   // Generate a random 5-digit booking number
-  // const generateBookingNumber = () => {
-  //   return Math.floor(10000 + Math.random() * 90000).toString();
-  // };
+  const generateBookingNumber = () => {
+    return Math.floor(10000 + Math.random() * 90000).toString();
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -147,7 +148,7 @@ const ReservationBtn = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone Number
+                  Phone Number <a style={{color:'#C70039', display:'none'}}>*Invalid number</a>
                 </label>
                 <input
                   type="tel"
