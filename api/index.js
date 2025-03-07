@@ -16,9 +16,6 @@ app.get('/test', (req,res) => {
 app.post('/makeReservation', (req,res) => {
     const formData = req.body;
     
-    // Create a 5 digit randomised number
-    
-
     res.json({formData});
 });
 

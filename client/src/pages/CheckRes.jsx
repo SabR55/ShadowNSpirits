@@ -5,7 +5,7 @@ import axios from "axios";
 function CheckRes(){
     const [resNum, setResNum] = useState('');
 
-    function handleSubmit(e) {
+    const handleSubmit = (e) => {
         // alert(resNum);
         
         e.preventDefault();
