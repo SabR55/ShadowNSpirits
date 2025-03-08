@@ -15,7 +15,6 @@ const ReservationBtn = () => {
     time: '18:00', // Default to 6:00 PM
     guests: '2'    // Default to 2 people
   });
-  const navigate = useNavigate();
 
   // Calculate minimum (today) and maximum (3 weeks from today) dates
   const today = new Date();

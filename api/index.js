@@ -31,7 +31,7 @@ app.post('/makeReservation', async (req, res) => {
         const formData = req.body;
 
         // Find the last reservation to get the latest ID
-        const lastReservation = await Reservation.findOne().sort({ id: -1 });
+        const lastReservation = await Reservation.findOne().sort({ _id: -1 });
         
         // Generate new ID - if no previous reservation, start with "001"
         let resId;
