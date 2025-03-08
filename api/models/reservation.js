@@ -2,15 +2,16 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const ReservationSchema = new Schema({
-    id: String,
-    name: String,
-    email: String,
-    phone: String,
-    date: String,
-    time: String,
-    guests: Number,
-    createdAt: { type: Date, default: Date.now },
+    resId: String,
+    resName: String,
+    resEmail: String,
+    resPhone: String,
+    resDate: String,
+    resTime: String,
+    resNumOfGuests: Number,
+    resDateCreated: { type: Date, default: Date.now },
     resNum: String,
+    resStatus: String
 });
 
 const ResModel = mongoose.model('reservations', ReservationSchema);
