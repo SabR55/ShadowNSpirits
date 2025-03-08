@@ -35,11 +35,6 @@ const ReservationBtn = () => {
       [name]: value
     }));
   };
-  
-  // Generate a random 5-digit booking number
-  const generateBookingNumber = () => {
-    return Math.floor(10000 + Math.random() * 90000).toString();
-  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -70,22 +65,6 @@ const ReservationBtn = () => {
           console.error('Error submitting form:', error);
       });
 
-    
-    // Generate booking number
-    // const bookingNumber = generateBookingNumber();
-    
-    // Here you would typically make an API call to save the reservation
-    // For now, we'll just navigate to the confirmation page with the data
-    
-    // Navigate to confirmation page with form data and booking number
-    // navigate('/reservationConfirmed', { 
-    //   state: { 
-    //     ...formData,
-    //     bookingNumber 
-    //   } 
-    // });
-    
-    // Close the modal
     closeModal();
   };
 
