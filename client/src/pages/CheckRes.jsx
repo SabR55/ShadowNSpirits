@@ -20,8 +20,6 @@ function CheckRes(){
             // Check if the reservation exists
             const response = await axios.get(`/reservation-details/${resNum}`);
 
-            console.log("Call #1");
-
             // Redirect to the details page
             navigate(`/reservation-details/${resNum}`);
             

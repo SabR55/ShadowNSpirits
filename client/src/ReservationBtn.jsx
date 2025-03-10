@@ -49,7 +49,7 @@ const ReservationBtn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('/makeReservation', formData)
+    axios.post('/make-reservation', formData)
       .then(response => {
         // Reset form state to initial values
         setFormData({

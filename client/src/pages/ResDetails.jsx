@@ -169,7 +169,31 @@ function ResDetails() {
     }
 
     function deleteResConfirmed() {
-        navigate('/');
+        // navigate('/');
+
+        try {
+
+            console.log("Res Num: " + data.resNum);
+            // Find the reservation with matching resNum and update its status
+            axios.put('/reservation-cancelled', {
+                resNum: data.resNum,  // Assuming resNum is available in this scope
+                resStatus: 3
+            })
+            .then(response => {
+                console.log("Reservation status updated successfully");
+                
+                // Navigate to home page after successful update
+                navigate('/');
+            })
+            .catch(error => {
+                console.error("Error updating reservation:", error);
+                // Still navigate to home page even if update fails
+                // navigate('/');
+            });
+        } catch (error) {
+            console.error("Unexpected error:", error);
+            navigate('/');
+        }
     }
    
 

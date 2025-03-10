@@ -23,7 +23,7 @@ mongoose.connect(url, {})
 
 
 // CREATE RESERVATION
-app.post('/makeReservation', async (req, res) => {
+app.post('/make-reservation', async (req, res) => {
     try {
         const formData = req.body;
 
@@ -97,9 +97,7 @@ app.get('/reservation-details/:resNum', async (req, res) => {
         // Status 1 means that the Reservation is Active
         if (!reservation || Number(reservation.resStatus) !== 1 ) {
             return res.status(404).json({ message: 'Reservation not found' });
-        } 
-
-        console.log("Status: "+reservation.resStatus);
+        }
 
         res.json(reservation);
 
@@ -111,3 +109,34 @@ app.get('/reservation-details/:resNum', async (req, res) => {
 app.listen(port, () => {
     console.log("Server is running at port " + port)
 })
+
+app.put('/reservation-cancelled', async (req, res) => {
+    try {
+        const { resNum, resStatus } = req.body;
+
+        // Validate input
+        if (!resNum) {
+          return res.status(400).json({ message: 'Reservation number is required' });
+        }
+        
+        // Find and update the reservation
+        const updatedReservation = await Reservation.findOneAndUpdate(
+          { resNum: resNum },
+          { resStatus: resStatus },
+          { new: true }
+        );
+        
+        if (!updatedReservation) {
+          return res.status(404).json({ message: 'Reservation not found' });
+        }
+        
+        res.status(200).json({ 
+          message: 'Reservation status updated successfully', 
+          reservation: updatedReservation 
+        });
+        
+      } catch (error) {
+        console.error('Error updating reservation:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+      }
+});
