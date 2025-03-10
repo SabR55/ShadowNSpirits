@@ -28,6 +28,7 @@ function CheckRes(){
         } catch (err) {
             if (err.response && err.response.status === 404) {
                 setResNotFound(true);
+                setResNum('');
                 setError('Reservation not found.');
             } else {
                 // Handle other errors
