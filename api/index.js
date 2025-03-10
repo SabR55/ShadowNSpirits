@@ -94,9 +94,12 @@ app.get('/reservation-details/:resNum', async (req, res) => {
     try {
         const reservation = await Reservation.findOne({resNum: req.params.resNum});
 
-        if (!reservation) {
+        // Status 1 means that the Reservation is Active
+        if (!reservation || Number(reservation.resStatus) !== 1 ) {
             return res.status(404).json({ message: 'Reservation not found' });
         } 
+
+        console.log("Status: "+reservation.resStatus);
 
         res.json(reservation);
 

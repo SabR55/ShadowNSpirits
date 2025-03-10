@@ -1,7 +1,7 @@
-import { X, ChevronDown, Edit, Trash } from 'lucide-react';
+import { X, ChevronDown, Edit, Trash, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function ResDetails() {
     // Get reservation number from URL params
@@ -9,6 +9,11 @@ function ResDetails() {
 
     const [reservation, setReservation] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
+
+    const navigate = useNavigate();
 
     // Fetch reservation data
     useEffect(() => {
@@ -150,6 +155,24 @@ function ResDetails() {
         setIsEditing(false);
     }
 
+    // Delete Modal
+    function openDeleteModal() {
+        setIsDeleteModalOpen(true);
+    };
+
+    function closeDeleteModal() {
+        setIsDeleteModalOpen(false);
+    }
+
+    function deleteRes() {
+        setIsDeleteConfirmed(true);
+    }
+
+    function deleteResConfirmed() {
+        navigate('/');
+    }
+   
+
     return (
         <div className="flex items-center justify-center">
             <div className="rounded-lg px-8 py-12 my-8 max-w-md w-full bg-white">
@@ -178,7 +201,7 @@ function ResDetails() {
                                 <input 
                                 type="text"
                                 value={formatDisplayDate(data.resDate)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-600"
                                 disabled={!isEditing}
                                 style={{width:"165px"}}
                             />
@@ -186,23 +209,49 @@ function ResDetails() {
                                 <input 
                                 type="date"
                                 value={formatDateForInput(data.resDate)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                className="w-full px-3 border border-gray-300 rounded-md"
+                                style={{height:"42px"}}
                             />
                             )}
                             
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Time
                             </label>
-                            <input 
-                                type="time"
-                                value={formatTimeForInput(data.resTime)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+
+                            <div className='text black relative'>
+                                <select
+                                name="time"
+                                className={`w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10
+                                    ${!isEditing ? 'bg-gray-100' : 'bg-white'}`}
                                 disabled={!isEditing}
-                            />
+                                value={formatTimeForInput(data.resTime)}
+                                >
+                                <option value="16:00">4:00 PM</option>
+                                <option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option>
+                                <option value="17:30">5:30 PM</option>
+                                <option value="18:00">6:00 PM</option>
+                                <option value="18:30">6:30 PM</option>
+                                <option value="19:00">7:00 PM</option>
+                                <option value="19:30">7:30 PM</option>
+                                <option value="20:00">8:00 PM</option>
+                                <option value="20:30">8:30 PM</option>
+                                <option value="21:00">9:00 PM</option>
+                                </select>
+                                <div className="text-black pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                                    <Clock 
+                                        size={18} 
+                                        className='text-black'
+                                        style={{display:!isEditing ? 'none' : 'block'}}/>
+                                </div>
+
+                            </div>
+
                         </div>
+
                     </div>
 
                     <div>
@@ -235,39 +284,95 @@ function ResDetails() {
                             <button
                                 type="button" // Changed from "submit" to prevent form submission
                                 className="w-full text-white font-medium py-2 px-4 rounded-md"
-                                style={{backgroundColor:'#441752', color:'white'}}
+                                style={{backgroundColor:'#441752'}}
                                 onClick={handleEdit}
                             >
                                 Edit Reservation
                             </button>
                             
                         ) : (
-                            <div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <button
-                                        type="button"
-                                        onClick={handleCancel}
-                                        className="flex-1 bg-gray-400 text-white py-2 px-4 rounded-md"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={handleSave}
-                                        className="flex-1 text-white py-2 px-4 rounded-md"
-                                        style={{backgroundColor:'#441752', color:'white'}}
-                                    >
-                                        Save
-                                    </button>
-                                </div>
-
-                                <div className='pt-4 text-gray-500 hover:underline flex flex-row items-center gap-2 cursor-pointer"'>
-                                    <Trash size={18} /><p>Delete Reservation</p>
-                                </div>
-
+                            <div className="flex flex-row items-center gap-4">
+                                <button 
+                                    type="button"
+                                    className="p-2 bg-gray-100 rounded-md flex items-center justify-center"
+                                    style={{aspectRatio: '1/1'}}
+                                    onClick={openDeleteModal}
+                                >
+                                    <Trash size={18} className="text-gray-500" />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleCancel}
+                                    className="flex-1 bg-gray-400 text-white py-2 px-4 rounded-md"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleSave}
+                                    className="flex-1 text-white py-2 px-4 rounded-md"
+                                    style={{backgroundColor:'#441752', color:'white'}}
+                                >
+                                    Save
+                                </button>
                             </div>
                         )}
                     </div>
+                    
+                    {/* Delete Modal */}
+                    {isDeleteModalOpen && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                            <div className="bg-white rounded-lg py-10 px-6 max-w-md w-full mx-4">
+                                {!isDeleteConfirmed ? (
+                                    <div>
+                                        <div className="text-center mb-8">
+                                        <h2 id="resModalTitle" className="text-xl font-bold">Delete Reservation?</h2>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                            <button
+                                                className='w-full bg-gray-400 text-white py-2 px-4 rounded-md'
+                                                onClick={closeDeleteModal}
+                                                >
+                                                Cancel
+                                            </button>
+                                            </div>
+
+                                            <div>
+                                            <button
+                                                className="w-full text-white py-2 px-4 rounded-md"
+                                                style={{backgroundColor:'#441752'}}
+                                                onClick={deleteRes}
+                                                >
+                                                Confirm
+                                            </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>) : (
+                                    <div>
+                                        <div className="text-center mb-8">
+                                        <h2 id="resModalTitle" className="text-xl font-bold">Your reservation has been cancelled.</h2>
+                                        </div>
+
+                                        <div>
+                                        <button
+                                            type="button" // Changed from "submit" to prevent form submission
+                                            className="w-full text-white font-medium py-2 px-4 rounded-md"
+                                            style={{backgroundColor:'#441752'}}
+                                            onClick={deleteResConfirmed}
+                                            >
+                                            Ok
+                                        </button>
+                                        </div>
+                                    </div>)
+                                }
+                            </div>
+                        </div>
+                        )
+                    }
                 </form>
             </div>
         </div>
