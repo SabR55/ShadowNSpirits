@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import ReservationBtn from "./ReservationBtn";
 
 function Layout(){
     return(
@@ -11,13 +10,10 @@ function Layout(){
             </div>
             
             
-            <div className="flex-grow max-w-6xl mx-auto w-full">
+            <div 
+                className="flex-grow max-w-6xl mx-auto w-full flex items-center justify-center" 
+                style={{paddingTop:"3.5rem"}}>
             <Outlet />
-            </div>
-
-            <div id="reservationBtn" className="fixed z-10"
-                >
-                <ReservationBtn />
             </div>
 
             <Footer />

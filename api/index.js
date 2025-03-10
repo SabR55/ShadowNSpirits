@@ -92,6 +92,8 @@ app.post('/makeReservation', async (req, res) => {
     }
 });
 
+// app.get()
+
 app.listen(port, () => {
     console.log("Server is running at port " + port)
 })
