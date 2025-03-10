@@ -1,31 +1,33 @@
 import React, { useState } from 'react';
-import { X, ChevronDown } from 'lucide-react';
+import { X, ChevronDown, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const ReservationBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Calculate minimum (tomorrow) and maximum (3 weeks from today) dates
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1); // Set to tomorrow
+  
+  const formatDate = (date) => {
+    return date.toISOString().split('T')[0];
+  };
+  
+  const tomorrowFormatted = formatDate(tomorrow);
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    date: '',
+    date: tomorrowFormatted,
     time: '18:00', // Default to 6:00 PM
     guests: '2'    // Default to 2 people
   });
-
-  // Calculate minimum (today) and maximum (3 weeks from today) dates
-  const today = new Date();
+  
   const maxDate = new Date();
   maxDate.setDate(today.getDate() + 21); // 3 weeks ahead
-  
-  const formatDate = (date) => {
-    return date.toISOString().split('T')[0];
-  };
-
-  const todayFormatted = formatDate(today);
   const maxDateFormatted = formatDate(maxDate);
   
   const handleChange = (e) => {
@@ -126,6 +128,7 @@ const ReservationBtn = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {/* Check that the number is 8 digits */}
                   Phone Number <a style={{color:'#C70039', display:'none'}}>*Invalid number</a>
                 </label>
                 <input
@@ -144,44 +147,51 @@ const ReservationBtn = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Date
                   </label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    min={todayFormatted}
-                    max={maxDateFormatted}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    required
-                  />
+                  <div className='realtive'>
+                    <input
+                      type="date"
+                      name="date"
+                      value={formData.date}
+                      onChange={handleChange}
+                      min={tomorrowFormatted}
+                      max={maxDateFormatted}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                    
+                  </div>
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Time
                   </label>
-                  <select
-                    name="time"
-                    value={formData.time}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10"
-                    required
-                  >
-                    <option value="16:00">4:00 PM</option>
-                    <option value="16:30">4:30 PM</option>
-                    <option value="17:00">5:00 PM</option>
-                    <option value="17:30">5:30 PM</option>
-                    <option value="18:00">6:00 PM</option>
-                    <option value="18:30">6:30 PM</option>
-                    <option value="19:00">7:00 PM</option>
-                    <option value="19:30">7:30 PM</option>
-                    <option value="20:00">8:00 PM</option>
-                    <option value="20:30">8:30 PM</option>
-                    <option value="21:00">9:00 PM</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                    <ChevronDown size={18} />
+                  <div className='relative'>
+                    <select
+                      name="time"
+                      value={formData.time}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10"
+                      required
+                    >
+                      <option value="16:00">4:00 PM</option>
+                      <option value="16:30">4:30 PM</option>
+                      <option value="17:00">5:00 PM</option>
+                      <option value="17:30">5:30 PM</option>
+                      <option value="18:00">6:00 PM</option>
+                      <option value="18:30">6:30 PM</option>
+                      <option value="19:00">7:00 PM</option>
+                      <option value="19:30">7:30 PM</option>
+                      <option value="20:00">8:00 PM</option>
+                      <option value="20:30">8:30 PM</option>
+                      <option value="21:00">9:00 PM</option>
+                    </select>
+                    <div className="text-black pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                      <Clock size={18}/>
+                    </div>
+
                   </div>
+                  
                 </div>
               </div>
               
@@ -202,14 +212,14 @@ const ReservationBtn = () => {
                     <option value="5">5 people</option>
                     <option value="6">6 people</option>
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                  <div className="text-black pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
                     <ChevronDown size={18} />
                   </div>
                 </div>
               </div>
 
               <div className="block text-sm font-medium text-gray-700 mb-1">
-                <a>Each reservation includes a 15-minute grace period.</a>
+                <a>Each reservation includes a 15-minute grace period</a>
               </div>
               
               <div className="pt-2">

@@ -6,8 +6,6 @@ import { use } from 'react';
 function Navbar(){
   const [isOpen, setIsOpen] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   // const [errorMsgVisible, setErrorMsgVisible] = useState(false);
 
   const toggleMenu = () => {
@@ -22,24 +20,35 @@ function Navbar(){
         >
           {/* Logo */}
           <div id="navbarLogo" className="flex items-center">
-            <Link to={"/"}  className="text-2xl font-bold text-white">
+            <Link
+              to={"/"} 
+              className="text-2xl font-bold text-white"
+              >
               Shadow & Spirits
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link to={"/ourDrinks"} className="text-white hover:text-gray-300 transition duration-300">
+            <Link 
+              to={"/ourDrinks"} 
+              className="text-white hover:text-gray-300 transition duration-300">
               Our Drinks
             </Link>
-            <Link to={"/findUs"}  className="text-white hover:text-gray-300 transition duration-300">
+
+            <Link
+              to={"/findUs"}  
+              className="text-white hover:text-gray-300 transition duration-300">
               Find Us
             </Link>
-            <Link to={"/about"}  className="text-white hover:text-gray-300 transition duration-300">
+
+            <Link 
+              to={"/about"} 
+              className="text-white hover:text-gray-300 transition duration-300">
               About
             </Link>
             <Link 
-              to={"/checkReservation"} 
+              to={"/check-reservation"} 
               className="text-white hover:text-gray-300 transition duration-300">
               Check Reservation
             </Link>
@@ -73,24 +82,28 @@ function Navbar(){
             <Link 
                 to={"/ourDrinks"}
                 className="text-white block px-3 py-2 text-center"
+                onClick={toggleMenu}
               >
                 Our Drinks
               </Link>
               <Link 
                 to={"/findUs"}
                 className="text-white block px-3 py-2 text-center"
+                onClick={toggleMenu}
               >
                 Find Us
               </Link>
               <Link 
                 to={"/about"}
                 className="text-white block px-3 py-2 text-center"
+                onClick={toggleMenu}
               >
                 About
               </Link>
               <Link 
-                to={"/checkReservation"}
+                to={"/check-reservation"}
                 className="text-white block px-3 py-2 text-center"
+                onClick={toggleMenu}
               >
                 Check Reservation
               </Link>

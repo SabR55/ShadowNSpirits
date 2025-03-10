@@ -22,10 +22,7 @@ mongoose.connect(url, {})
 .catch(err => console.log(err))
 
 
-app.get('/test', (req,res) => {
-    res.json('test ok');
-});
-
+// CREATE RESERVATION
 app.post('/makeReservation', async (req, res) => {
     try {
         const formData = req.body;
@@ -68,7 +65,7 @@ app.post('/makeReservation', async (req, res) => {
             resPhone: formData.phone,
             resDate: formData.date,
             resTime: formData.time,
-            resNumOfGuests: formData.guests,
+            resGuests: formData.guests,
             resDateCreated: new Date(),
             resNum: randomResNum,
             resStatus: "1",
@@ -92,7 +89,21 @@ app.post('/makeReservation', async (req, res) => {
     }
 });
 
-// app.get()
+// RETRIEVE RESERVATION
+app.get('/reservation-details/:resNum', async (req, res) => {
+    try {
+        const reservation = await Reservation.findOne({resNum: req.params.resNum});
+
+        if (!reservation) {
+            return res.status(404).json({ message: 'Reservation not found' });
+        } 
+
+        res.json(reservation);
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+      }
+});
 
 app.listen(port, () => {
     console.log("Server is running at port " + port)

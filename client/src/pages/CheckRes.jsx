@@ -1,14 +1,40 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import ReservationBtn from "../ReservationBtn";
 
 
 function CheckRes(){
     const [resNum, setResNum] = useState('');
 
-    const handleSubmit = (e) => {
-        alert(resNum);
+    const [resNotFound, setResNotFound] = useState(false);
+    const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
+
+    async function handleSubmit(e) {
         
-        e.preventDefault()        // axios.get('/test');
+        e.preventDefault()
+
+        try {
+            // Check if the reservation exists
+            const response = await axios.get(`/reservation-details/${resNum}`);
+
+            console.log("Call #1");
+
+            // Redirect to the details page
+            navigate(`/reservation-details/${resNum}`);
+            
+        } catch (err) {
+            if (err.response && err.response.status === 404) {
+                setResNotFound(true);
+                setError('Reservation not found.');
+            } else {
+                // Handle other errors
+                setError('An error occurred. Please try again later.');
+                console.error('Error checking reservation:', err);
+            }
+        }
 
     }
 
@@ -20,21 +46,21 @@ function CheckRes(){
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                    <div className="pt-8 pb-4">
+                    <div className="pt-8">
                          <input 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 text-center border border-gray-300 rounded-md"
                         placeholder="Reservation Number"
                         value={resNum}
                         onChange={e => setResNum(e.target.value)}
                         />
                     </div>
-
+                    
                     {/* Error message if the Reservation Number enter is invalid */}
-                    <div className="pt-4 block text-sm font-medium text-gray-700 mb-1" style={{display:"none"}}>
-                        <a>Reservation number not found. <br/>Please check and try again.</a>
+                    <div className="pt-2 block text-sm font-medium text-center text-gray-700 mb-1" style={{ color:"#C70039", display: resNotFound ? "block" : "none" }}>
+                        <a>Reservation number not found</a>
                     </div>
 
-                    <div>
+                    <div className="pt-4">
                         <button
                         type="submit"
                         className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md"
@@ -45,6 +71,10 @@ function CheckRes(){
                     </div>
 
                 </form>
+            </div>
+
+            <div id="reservationBtn" className="fixed z-10">
+                <ReservationBtn />
             </div>
         </div>
     );
