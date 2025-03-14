@@ -106,10 +106,45 @@ app.get('/reservation-details/:resNum', async (req, res) => {
       }
 });
 
-app.listen(port, () => {
-    console.log("Server is running at port " + port)
-})
+// UPDATE RESERVATION   
+app.put('/reservation-update/:resNum', async (req, res) => {
+    try {
+        
+        // Get updated reservation data
+        const { resDate, resTime, resGuests } = req.body;
 
+        // Find and update the reservation
+        const updatedReservation = await Reservation.findOneAndUpdate(
+            { resNum: req.params.resNum },
+            { 
+                resDate: resDate,
+                resTime: resTime, 
+                resGuests: resGuests 
+            },
+            { new: true }
+          );
+
+        if (!updatedReservation) {
+        return res.status(404).json({ message: 'Reservation not found' });
+        }
+        
+        res.status(200).json({ 
+        message: 'Reservation status updated successfully', 
+        reservation: updatedReservation 
+        });
+        
+    } catch (error) {
+        console.error('Error updating reservation:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error while updating reservation',
+            error: error.message
+        });
+    }
+});
+
+
+// Guest cancelled Reservation
 app.put('/reservation-cancelled', async (req, res) => {
     try {
         const { resNum, resStatus } = req.body;
@@ -120,19 +155,19 @@ app.put('/reservation-cancelled', async (req, res) => {
         }
         
         // Find and update the reservation
-        const updatedReservation = await Reservation.findOneAndUpdate(
+        const cancelReservation = await Reservation.findOneAndUpdate(
           { resNum: resNum },
           { resStatus: resStatus },
           { new: true }
         );
         
-        if (!updatedReservation) {
+        if (!cancelReservation) {
           return res.status(404).json({ message: 'Reservation not found' });
         }
         
         res.status(200).json({ 
           message: 'Reservation status updated successfully', 
-          reservation: updatedReservation 
+          reservation: cancelReservation 
         });
         
       } catch (error) {
@@ -140,3 +175,9 @@ app.put('/reservation-cancelled', async (req, res) => {
         res.status(500).json({ message: 'Server error', error: error.message });
       }
 });
+
+
+
+app.listen(port, () => {
+    console.log("Server is running at port " + port)
+})

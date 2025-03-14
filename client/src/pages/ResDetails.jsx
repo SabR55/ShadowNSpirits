@@ -12,8 +12,18 @@ function ResDetails() {
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+
+    const [editBlocked, setEditBlocked] = useState(false);
 
     const navigate = useNavigate();
+
+    // Editable values
+    const [editedValues, setEditedValues] = useState({
+        resDate: '',
+        resTime: '',
+        resGuests: ''
+    });
 
     // Fetch reservation data
     useEffect(() => {
@@ -21,6 +31,13 @@ function ResDetails() {
             try {
                 const response = await axios.get(`/reservation-details/${reservationNumber}`);
                 setReservation(response.data);
+                
+                // Set editable values
+                setEditedValues({
+                    resDate: formatDateForInput(response.data.resDate),
+                    resTime: formatTimeForInput(response.data.resTime),
+                    resGuests: response.data.resGuests
+                });
                 
             } catch {
                 console.log('Could not find reservation.');
@@ -91,23 +108,32 @@ function ResDetails() {
         }
     };
 
-    // Format time for display (e.g., "7:30 PM")
-    const formatDisplayTime = (timeString) => {
-        // If already in display format like "7:30 PM"
-        if (/\d{1,2}:\d{2}\s[AP]M/.test(timeString)) {
-            return timeString;
-        }
+    // Calculate minimum and maximum dates for the date picker
+    const calculateDateRestrictions = () => {
+        // Get tomorrow's date
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
         
-        // If in 24-hour format (HH:MM)
-        if (/^\d{2}:\d{2}$/.test(timeString)) {
-            const [hours, minutes] = timeString.split(':').map(Number);
-            const period = hours >= 12 ? 'PM' : 'AM';
-            const hour12 = hours % 12 || 12; // Convert 0 to 12 for 12 AM
-            return `${hour12}:${minutes.toString().padStart(2, '0')} ${period}`;
-        }
+        // Get date 3 weeks from tomorrow
+        const maxDate = new Date(tomorrow);
+        maxDate.setDate(tomorrow.getDate() + 21); // 3 weeks = 21 days
         
-        return timeString;
+        // Format as YYYY-MM-DD for input element's min and max attributes
+        const formatDateString = (date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+        
+        return {
+            minDate: formatDateString(tomorrow),
+            maxDate: formatDateString(maxDate)
+        };
     };
+    
+    // Get date restrictions
+    const dateRestrictions = calculateDateRestrictions();
 
     // Convert time to 24-hour format (HH:MM) for time input
     const formatTimeForInput = (timeString) => {
@@ -143,15 +169,84 @@ function ResDetails() {
         }
     };
 
+    // Handle form input changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedValues({
+            ...editedValues,
+            [name]: value
+        });
+    };
+
     function handleEdit() {
+        // Initialize edited values with current data
+        setEditedValues({
+            resDate: formatDateForInput(data.resDate),
+            resTime: formatTimeForInput(data.resTime),
+            resGuests: data.resGuests
+        });
         setIsEditing(true);
     }
 
-    function handleSave() {
-        setIsEditing(false);
+    async function handleSave() {
+        if (editedValues.resDate == data.resDate) {
+            setEditBlocked(true);
+            handleCancel();
+            return;
+        }
+
+        try {
+            // Convert date back to display format for the API
+            const formattedDate = new Date(editedValues.resDate);
+            const month = formattedDate.toLocaleString('en-US', { month: 'long' });
+            const day = formattedDate.getDate();
+            const year = formattedDate.getFullYear();
+            const displayDate = `${month} ${day}, ${year}`;
+
+            // Convert time back to display format
+            const [hours, minutes] = editedValues.resTime.split(':').map(Number);
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const hour12 = hours % 12 || 12;
+            const displayTime = `${hour12}:${minutes.toString().padStart(2, '0')} ${period}`;
+
+            // Prepare data for the API
+            const updatedReservation = {
+                resNum: data.resNum,
+                resDate: displayDate,
+                resTime: displayTime,
+                resGuests: parseInt(editedValues.resGuests)
+            };
+
+            // Send update request to the server
+            const response = await axios.put(`/reservation-update/${data.resNum}`, updatedReservation);
+            
+            // Update the local state with the response data
+            setReservation({
+                ...data,
+                ...response.data
+            });
+
+            setIsSaveModalOpen(true);
+
+        } catch (error) {
+            console.error("Error updating reservation:", error);
+            alert("Failed to update reservation. Please try again.");
+        }
+    }
+
+    function handleSaveConfirmed() {
+        navigate(0); // Refresh Page
     }
 
     function handleCancel() {
+        // Reset edited values
+        setEditedValues({
+            resDate: formatDateForInput(data.resDate),
+            resTime: formatTimeForInput(data.resTime),
+            resGuests: data.resGuests
+        });
+        
+        // Exit edit mode
         setIsEditing(false);
     }
 
@@ -199,7 +294,7 @@ function ResDetails() {
 
     return (
         <div className="flex items-center justify-center">
-            <div className="rounded-lg px-8 py-12 my-8 max-w-md w-full bg-white">
+            <div className="px-8 py-12 my-8 max-w-md w-96 bg-white">
                 <div className="flex items-center justify-center">
                     <h2 id="resModalTitle" className="text-xl font-bold">Reservation Details</h2>
                 </div>
@@ -209,49 +304,52 @@ function ResDetails() {
                     <p className="text-sm text-gray-500 mt-1">Reservation Number</p>
                 </div>
 
-                <div className="py-4 block text-sm font-medium text-gray-700 mb-1 grid grid-cols-1 gap-2">
-                    <p>{data.resName}</p>
-                    <p>{data.resEmail}</p>
+                <div className="inputLabel py-4">
+                    <p className='pb-2'>{data.resName}</p>
+                    <p className='pb-2'>{data.resEmail}</p>
                     <p>{data.resPhone}</p>
                 </div>
 
                 <form className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="inputLabel">
                                 Date
                             </label>
                             {!isEditing ? (
                                 <input 
                                 type="text"
                                 value={formatDisplayDate(data.resDate)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-600"
+                                className="inputBox"
                                 disabled={!isEditing}
                                 style={{width:"165px"}}
                             />
                             ):(
                                 <input 
                                 type="date"
-                                value={formatDateForInput(data.resDate)}
-                                className="w-full px-3 border border-gray-300 rounded-md"
-                                style={{height:"42px"}}
+                                name="resDate"
+                                value={editedValues.resDate}
+                                onChange={handleInputChange}
+                                min={dateRestrictions.minDate}
+                                max={dateRestrictions.maxDate}
+                                className="inputBox inputBoxEditing"
                             />
                             )}
                             
                         </div>
 
                         <div>
-                             <label className="block text-sm font-medium text-gray-700 mb-1">
+                             <label className="inputLabel">
                                 Time
                             </label>
 
                             <div className='text black relative'>
                                 <select
-                                name="time"
-                                className={`w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10
-                                    ${!isEditing ? 'bg-gray-100' : 'bg-white'}`}
+                                name="resTime"
+                                className={`${!isEditing ? 'inputBox' : 'inputBox inputBoxEditing'} appearance-none`}
                                 disabled={!isEditing}
-                                value={formatTimeForInput(data.resTime)}
+                                value={isEditing ? editedValues.resTime : formatTimeForInput(data.resTime)}
+                                onChange={handleInputChange}
                                 >
                                 <option value="16:00">4:00 PM</option>
                                 <option value="16:30">4:30 PM</option>
@@ -279,15 +377,16 @@ function ResDetails() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="inputLabel">
                             Number of Guests
                         </label>
                         <div className="relative">
                             <select
-                                className={`w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10 
-                                    ${!isEditing ? 'bg-gray-100' : 'bg-white border'}`}
+                                name="resGuests"
+                                className={`${!isEditing ? 'inputBox' : 'inputBox inputBoxEditing'} appearance-none`}
                                 disabled={!isEditing}
-                                value={data.resGuests}
+                                value={isEditing ? editedValues.resGuests : data.resGuests}
+                                onChange={handleInputChange}
                             >
                                 <option value="2">2 people</option>
                                 <option value="3">3 people</option>
@@ -301,14 +400,18 @@ function ResDetails() {
                                 </div>
                             )}
                         </div>
+
+                        {/*  Error Message. Guest cannot edit the day of reservation. */}
+                        <div className="pt-2 inputLabel" style={{display: editBlocked ? "block" : "none" }}>
+                            <a>To make changes the day of your reservation <br />please call us at 6767 8989</a>
+                        </div>
                     </div> 
 
-                    <div className="pt-2">
+                    <div>
                         {!isEditing ? (
                             <button
                                 type="button" // Changed from "submit" to prevent form submission
-                                className="w-full text-white font-medium py-2 px-4 rounded-md"
-                                style={{backgroundColor:'#441752'}}
+                                className="formButton" 
                                 onClick={handleEdit}
                             >
                                 Edit Reservation
@@ -318,7 +421,7 @@ function ResDetails() {
                             <div className="flex flex-row items-center gap-4">
                                 <button 
                                     type="button"
-                                    className="p-2 bg-gray-100 rounded-md flex items-center justify-center"
+                                    className="p-2 bg-gray-100 flex items-center justify-center"
                                     style={{aspectRatio: '1/1'}}
                                     onClick={openDeleteModal}
                                 >
@@ -327,16 +430,15 @@ function ResDetails() {
                                 <button
                                     type="button"
                                     onClick={handleCancel}
-                                    className="flex-1 bg-gray-400 text-white py-2 px-4 rounded-md"
+                                    className="formButton formButtonGray flex-1"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="button"
                                     onClick={handleSave}
-                                    className="flex-1 text-white py-2 px-4 rounded-md"
-                                    style={{backgroundColor:'#441752', color:'white'}}
-                                >
+                                    className="formButton flex-1" 
+                                    >
                                     Save
                                 </button>
                             </div>
@@ -356,7 +458,7 @@ function ResDetails() {
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
                                             <button
-                                                className='w-full bg-gray-400 text-white py-2 px-4 rounded-md'
+                                                className='formButton formButtonGray'
                                                 onClick={closeDeleteModal}
                                                 >
                                                 Cancel
@@ -365,7 +467,7 @@ function ResDetails() {
 
                                             <div>
                                             <button
-                                                className="w-full text-white py-2 px-4 rounded-md"
+                                                className="formButton"
                                                 style={{backgroundColor:'#441752'}}
                                                 onClick={deleteRes}
                                                 >
@@ -391,12 +493,33 @@ function ResDetails() {
                                             Ok
                                         </button>
                                         </div>
-                                    </div>)
-                                }
+                                    </div>
+                                )}
                             </div>
                         </div>
-                        )
-                    }
+                    )}
+
+                    {/* Save Confirmation Modal */}
+                    {isSaveModalOpen && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                            <div className="bg-white rounded-lg py-10 px-6 max-w-md w-full mx-4">
+                                <div className="text-center mb-8">
+                                    <h2 id="saveModalTitle" className="text-xl font-bold">Your edits have been saved.</h2>
+                                </div>
+
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="w-full text-white font-medium py-2 px-4 rounded-md"
+                                        style={{backgroundColor:'#441752'}}
+                                        onClick={handleSaveConfirmed}
+                                    >
+                                        Ok
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </form>
             </div>
         </div>

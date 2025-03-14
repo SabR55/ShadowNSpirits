@@ -84,7 +84,7 @@ const ReservationBtn = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white p-6 max-w-md w-full mx-4">
             <div className="flex justify-between items-center mb-4">
               <h2 id="resModalTitle" className="text-xl font-bold">Make a Reservation</h2>
               <button
@@ -97,7 +97,7 @@ const ReservationBtn = () => {
             {/* Reservation Form */}
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="inputLabel">
                   Name
                 </label>
                 <input
@@ -105,14 +105,14 @@ const ReservationBtn = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="inputBox inputBoxEditing"
                   placeholder="Your name"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="inputLabel">
                   Email
                 </label>
                 <input
@@ -120,14 +120,14 @@ const ReservationBtn = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="inputBox inputBoxEditing"
                   placeholder="your@email.com"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="inputLabel">
                   {/* Check that the number is 8 digits */}
                   Phone Number <a style={{color:'#C70039', display:'none'}}>*Invalid number</a>
                 </label>
@@ -136,7 +136,7 @@ const ReservationBtn = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="inputBox inputBoxEditing"
                   placeholder="9878 6545"
                   required
                 />
@@ -144,7 +144,7 @@ const ReservationBtn = () => {
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="inputLabel">
                     Date
                   </label>
                   <div className='realtive'>
@@ -155,7 +155,7 @@ const ReservationBtn = () => {
                       onChange={handleChange}
                       min={tomorrowFormatted}
                       max={maxDateFormatted}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      className="inputBox inputBoxEditing"
                       required
                     />
                     
@@ -163,7 +163,7 @@ const ReservationBtn = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="inputLabel">
                     Time
                   </label>
                   <div className='relative'>
@@ -171,7 +171,7 @@ const ReservationBtn = () => {
                       name="time"
                       value={formData.time}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10"
+                      className="inputBox inputBoxEditing appearance-none"
                       required
                     >
                       <option value="16:00">4:00 PM</option>
@@ -196,7 +196,7 @@ const ReservationBtn = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="inputLabel">
                   Number of Guests
                 </label>
                 <div className="relative">
@@ -204,7 +204,7 @@ const ReservationBtn = () => {
                     name="guests"
                     value={formData.guests}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none pr-10"
+                    className="inputBox inputBoxEditing appearance-none"
                   >
                     <option value="2">2 people</option>
                     <option value="3">3 people</option>
@@ -218,15 +218,14 @@ const ReservationBtn = () => {
                 </div>
               </div>
 
-              <div className="block text-sm font-medium text-gray-700 mb-1">
+              <div className="inputLabel">
                 <a>Each reservation includes a 15-minute grace period</a>
               </div>
               
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md"
-                  style={{backgroundColor:'#441752', color:'white'}}
+                  className="formButton"
                 >
                   Confirm Reservation
                 </button>
