@@ -186,10 +186,15 @@ function ResDetails() {
             resGuests: data.resGuests
         });
         setIsEditing(true);
+        setEditBlocked(false);
     }
 
     async function handleSave() {
-        if (editedValues.resDate == data.resDate) {
+
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+
+        if (editedValues.resDate == today) {
             setEditBlocked(true);
             handleCancel();
             return;
