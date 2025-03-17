@@ -77,6 +77,7 @@ app.post('/make-reservation', async (req, res) => {
             message: 'Reservation created successfully',
             data: newReservation
         });
+
     } catch (error) {
         console.error('Reservation creation error:', error);
         

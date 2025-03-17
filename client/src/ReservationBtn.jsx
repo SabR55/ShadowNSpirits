@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const ReservationBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Calculate minimum (tomorrow) and maximum (3 weeks from today) dates
   const today = new Date();
@@ -60,14 +61,30 @@ const ReservationBtn = () => {
             time: '18:00',
             guests: '2'
         });
-      
-      console.log('Form submitted successfully', response);
-      })
-      .catch(error => {
-          console.error('Error submitting form:', error);
-      });
 
-    closeModal();
+    console.log('Form submitted successfully', response);
+    
+    // Get reservation number from the response
+    const resNum = response.data.data.resNum;
+    
+    // Make the GET request to fetch reservation details
+    return axios.get(`/reservation-details/${resNum}`)
+      .then(detailsResponse => {
+        console.log('Reservation details fetched:', detailsResponse.data);
+        
+        // Redirect to the details page
+        navigate(`/reservation-details/${resNum}`);
+      })
+      .catch(detailsError => {
+        console.error('Error fetching reservation details:', detailsError);
+      });
+  })
+  .catch(error => {
+    console.error('Error submitting form:', error);
+    })
+    .finally(() => {
+        closeModal();
+    });
   };
 
   return (
