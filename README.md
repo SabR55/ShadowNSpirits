@@ -15,3 +15,5 @@ Frontend: React and Tailwind <br/>
 Backend: Node.js and Express <br/>
 Database: MongoDB
 
+Running the Frontend: Open the client terminal > npm run dev
+Running the Backend: Open the api terminal > npm run dev
