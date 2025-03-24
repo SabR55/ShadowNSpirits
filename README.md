@@ -11,7 +11,7 @@ Functions:
 - Update reservation details
 - Delete reservation made
 
-Frontend: React and Tailwind
-Backend: Node.js and Express
+Frontend: React and Tailwind <br/>
+Backend: Node.js and Express <br/>
 Database: MongoDB
 
