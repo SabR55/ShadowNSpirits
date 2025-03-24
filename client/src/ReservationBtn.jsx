@@ -93,7 +93,7 @@ const ReservationBtn = () => {
       <button
         id="reservationBtn"
         onClick={openModal}
-        className="fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-lg transition-colors duration-200"
+        className="fixed bottom-2 right-6 font-medium py-2 px-4 rounded-md shadow-lg transition-colors duration-200"
       >
         Make a Reservation
       </button>

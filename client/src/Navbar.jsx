@@ -14,7 +14,7 @@ function Navbar(){
 
   return (
     <nav id="navbar">
-      <div id="navbarExpand" className="max-w-6xl mx-auto">
+       <div id="navbarExpand"> {/* className="max-w-6xl mx-auto" */}
         <div 
           className="flex justify-between items-center py-4"
         >
@@ -34,18 +34,6 @@ function Navbar(){
               to={"/ourDrinks"} 
               className="text-white hover:text-gray-300 transition duration-300">
               Our Drinks
-            </Link>
-
-            <Link
-              to={"/findUs"}  
-              className="text-white hover:text-gray-300 transition duration-300">
-              Find Us
-            </Link>
-
-            <Link 
-              to={"/about"} 
-              className="text-white hover:text-gray-300 transition duration-300">
-              About
             </Link>
             <Link 
               to={"/check-reservation"} 
@@ -85,20 +73,6 @@ function Navbar(){
                 onClick={toggleMenu}
               >
                 Our Drinks
-              </Link>
-              <Link 
-                to={"/findUs"}
-                className="text-white block px-3 py-2 text-center"
-                onClick={toggleMenu}
-              >
-                Find Us
-              </Link>
-              <Link 
-                to={"/about"}
-                className="text-white block px-3 py-2 text-center"
-                onClick={toggleMenu}
-              >
-                About
               </Link>
               <Link 
                 to={"/check-reservation"}

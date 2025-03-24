@@ -4,15 +4,16 @@ import Footer from "./Footer";
 
 function Layout(){
     return(
-        <div className="flex flex-col min-h-screen" style={{backgroundColor:"#361241"}}>
+        <div className="flex flex-col max-w-full min-h-screen">
             <div className="fixed top-0 left-0 right-0">
                 <Navbar />
             </div>
             
             
             <div 
-                className="flex-grow max-w-6xl mx-auto w-full flex items-center justify-center" 
-                style={{marginTop:"3.5rem", backgroundColor:"#361241"}}>
+                className="flex-grow  mx-auto w-full flex  justify-center" 
+                // style={{backgroundColor:"#200B27"}}
+                >
             <Outlet />
             </div>
 

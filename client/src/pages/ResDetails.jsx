@@ -298,7 +298,10 @@ function ResDetails() {
    
 
     return (
-        <div className="flex items-center justify-center">
+        <div 
+            className="pt-16 flex items-center justify-center bg-cover bg-center bg-no-repeat w-full" 
+            style={{ backgroundImage: "url('/src/assets/Images/smoke-bgd.jpg')" }}>
+
             <div className="px-8 py-12 my-8 max-w-md w-96 bg-white">
                 <div className="flex items-center justify-center">
                     <h2 id="resModalTitle" className="text-xl font-bold">Reservation Details</h2>

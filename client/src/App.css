@@ -1,15 +1,19 @@
 body {
     font-family: 'Andada Pro', serif;
+    font-weight: 500;
+    background-color: #200B27;
+    /* background-color: white; */
 }
 
 
 /* --- NAVBAR --- */
 #navbar {
-    background-color: rgba(68, 23, 82, 0.6);
+    background-color: rgba(32, 11, 39, 0.6);
     font-weight: 700;
 }
  
 #navbarExpand {
+    padding: 0 10%;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px, rgba(0, 0, 0, 0.15) 0px 6px 6px;
 }
 
@@ -20,11 +24,48 @@ body {
 /* --- NAVBAR --- */
 #reservationBtn {
     margin: 0 5% 60px 0;
+    background-color: white;
+    color: #200B27;
+}
+
+/* --- HOMEPAGE --- */
+.home-image {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.home-section-text {
+    color: white;
+    font-size: 1.4rem;
+    line-height: 2rem;
+}
+
+/* Medium screens */
+@media (max-width: 1200px) { /* 768px */
+    .home-section-text {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+    }
+}
+
+/* Small screens */
+@media (max-width: 640px) {
+    .home-section-text {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+/* --- OUR DRINKS --- */
+.drinks-mainTitle {
+    color: white;
+    font-size: 3rem;
+    line-height: 3.3rem;
+    font-family: "Playfair Display", serif;
+    font-weight: 300;
 }
 
 
 /* --- FORMS --- */
-
 .inputBox {
     width: 100%;
     padding-left: 0.75rem;
@@ -68,4 +109,9 @@ body {
 
 .formButtonGray{
     background-color: #9CA3AF;
+}
+
+/* --- FOOTER --- */
+#footer-title {
+    font-family: "Playfair Display", serif;
 }

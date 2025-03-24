@@ -1,8 +1,9 @@
 import './App.css'
 import {Route, Routes} from "react-router-dom";
-import OurDrinks from './pages/OurDrinks';
 import Layout from './Layout';
 import Homepage from './pages/Homepage';
+import OurDrinks from './pages/OurDrinks';
+import About from './pages/About';
 import ResDetails from './pages/ResDetails';
 import CheckRes from './pages/CheckRes';
 import axios from 'axios';
