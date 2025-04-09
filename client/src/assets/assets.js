@@ -1,4 +1,4 @@
-import homeHero from './images/home-heroImage.jpg';
+// import homeHero from './images/home-heroImage.jpg';
 import homeCard01 from './images/home-card1.jpg';
 import homeCard02 from './images/home-card2.jpg';
 import homeCard03 from './images/home-card3.jpg';
