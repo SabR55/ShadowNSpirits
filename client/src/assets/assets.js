@@ -12,8 +12,6 @@ import ourDrinksCard02 from './images/ourDrinks-card2.jpg';
 import ourDrinksCard03 from './images/ourDrinks-card3.jpg';
 
 
-
-
 const images = {
   homeHero,
   homeCard01,
