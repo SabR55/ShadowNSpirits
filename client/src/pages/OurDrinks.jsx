@@ -1,10 +1,11 @@
 import ReservationBtn from "../ReservationBtn";
+import images from '../assets/assets.js';
 
 function OurDrinks() {
     return (
         <div>
             {/* Hero Image */}
-            <img src="/src/assets/Images/ourDrinks-hero.jpg" />
+            <img src={images.ourDrinksHero} />
 
             {/* Floating Reservation button */}
             <div id="reservationBtn" className="fixed z-10">
@@ -21,11 +22,11 @@ function OurDrinks() {
                         <h1 className="drinks-mainTitle text-white text-3xl">Signature <br/> Drinks</h1>
 
                         <img 
-                            src="/src/assets/Images/home-decor.png" 
+                            src={images.homeDecor} 
                             className="pt-8 w-24 h-auto block"/>
 
                         <img 
-                            src="/src/assets/Images/ourDrinks-card1.jpg"
+                            src={images.ourDrinksCard01} 
                             className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl h-auto object-cover"
                             style={{paddingTop:"80px"}}
                         />
@@ -41,7 +42,7 @@ function OurDrinks() {
                 <div className="flex flex-col items-center text-left mx-auto">
                     <div className="pb-16">
                         <img 
-                            src="/src/assets/Images/ourDrinks-card2.jpg"
+                            src={images.ourDrinksCard02} 
                             className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl h-auto object-cover"
                         />
                         
@@ -53,7 +54,7 @@ function OurDrinks() {
 
                     <div>
                         <img 
-                            src="/src/assets/Images/ourDrinks-card3.jpg"
+                            src={images.ourDrinksCard03} 
                             className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl h-auto object-cover"
                         />
                         

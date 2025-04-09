@@ -2,18 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReservationBtn from "../ReservationBtn";
-
+import images from '../assets/assets.js';
 
 function CheckRes(){
     const [resNum, setResNum] = useState('');
-
     const [resNotFound, setResNotFound] = useState(false);
     const [error, setError] = useState(null);
-
     const navigate = useNavigate();
 
     async function handleSubmit(e) {
-        
         e.preventDefault()
 
         try {
@@ -34,15 +31,17 @@ function CheckRes(){
                 console.error('Error checking reservation:', err);
             }
         }
-
     }
 
     return(
-        <div 
-            className="pt-16 flex items-center justify-center bg-cover bg-center bg-no-repeat w-full" 
-            style={{ backgroundImage: "url('/src/assets/Images/smoke-bgd.jpg')" }}>
+        <div className="pt-16 flex items-center justify-center relative w-full">
+            <img 
+                src={images.smokeBg}
+                className="absolute inset-0 w-full h-full object-cover -z-1"  
+                alt="Smoky background"
+            />
 
-            <div className="px-8 py-12 max-w-md w-80 bg-white">
+            <div className="px-8 py-12 my-32 max-w-md w-80 bg-white relative z-10">
                 <div className="flex items-center justify-center">
                     <h2 id="resModalTitle" className="resModalTitle text-xl font-bold">Check Reservation</h2>
                 </div>
@@ -70,7 +69,6 @@ function CheckRes(){
                         Confirm Reservation
                         </button>
                     </div>
-
                 </form>
             </div>
 

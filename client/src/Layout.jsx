@@ -5,7 +5,7 @@ import Footer from "./Footer";
 function Layout(){
     return(
         <div className="flex flex-col max-w-full min-h-screen">
-            <div className="fixed top-0 left-0 right-0">
+            <div className="fixed top-0 left-0 right-0 z-10">
                 <Navbar />
             </div>
             
